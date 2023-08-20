@@ -1,0 +1,9 @@
+server:
+  port: 9411
+    
+spring:
+  application:
+    name: trace-service
+
+logging.level:
+  org.springframework.web: debug

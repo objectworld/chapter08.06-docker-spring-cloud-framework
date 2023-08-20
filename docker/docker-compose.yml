@@ -8,7 +8,7 @@ services:
   config-service:
     image: objectworld/config-server:0.0.1-SNAPSHOT
     ports:
-      - "8888:8888"
+      - "8788:8788"
     healthcheck:
       test: curl --fail http://localhost:8888/customer/docker  || exit 1
       interval: 5s

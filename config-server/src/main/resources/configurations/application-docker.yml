@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      default-zone: http://discovery-service:8761/eureka/
+      
+name:
+  value: shopping
+
+spring:
+  cloud:
+    config:
+      override-system-properties: false
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: BASIC
+        connectTimeout: 20000
+        readTimeout: 20000
+  circuitbreaker:
+    enabled: true
+    
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
