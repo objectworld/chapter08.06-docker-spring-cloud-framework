@@ -6,8 +6,14 @@ spring:
     name: gateway-service
   config:
     import: optional:configserver:http://localhost:8888
+  output:
+    ansi:
+      enabled: always
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       default-filters:
         - name: LoggingFilter
           args:
@@ -15,21 +21,40 @@ spring:
             logRequest: true
             logResponse: true
       routes:
-          # id: 라우트의 고유 식별자
-          # uri: 해당 라우터의 URL
-          # predicates: 라우트의 매칭 조건
-          # filters: 해당 라우트의 필터로, RewritePath는 강제로 Path를 다시 작성
-        - id: test-service
-          uri: lb://test-service
-          predicates:
-            - Path=/test/**
-          filters:
-            - name: LoggingFilter
-              args:
-                message : Logging Filter
-                logRequest: true
-                logResponse: true
-            - RewritePath=/test, /api/hello
+      - id: customer-service
+        uri: lb://customer-service
+        predicates:
+        - Path=/customer/**
+        filters:
+        - RewritePath=/customer/(?<path>.*), /$\{path}
+      - id: product-service
+        uri: lb://product-service
+        predicates:
+        - Path=/product/**
+        filters:
+        - RewritePath=/product/(?<path>.*), /$\{path}
+      - id: order-service
+        uri: lb://order-service
+        predicates:
+        - Path=/order/**
+        filters:
+        - RewritePath=/order/(?<path>.*), /$\{path}
+      - id: openapi
+        uri: http://localhost:${server.port}
+        predicates:
+        - Path=/v3/api-docs/**
+        filters:
+        - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: customer
+        url: /v3/api-docs/customer
+      - name: product
+        url: /v3/api-docs/product
+      - name: order
+        url: /v3/api-docs/order
 
 eureka:
   client:
