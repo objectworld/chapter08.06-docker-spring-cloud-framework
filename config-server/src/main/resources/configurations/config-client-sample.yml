@@ -1,0 +1,7 @@
+server:
+    port: 9980
+spring:
+  application:
+    name: config-client-sample
+config-client-sample:
+  overrided-config: new-value

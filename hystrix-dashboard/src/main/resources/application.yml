@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: hystrix-dashboard
+  config:
+    import: optional:configserver:http://localhost:8888
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"

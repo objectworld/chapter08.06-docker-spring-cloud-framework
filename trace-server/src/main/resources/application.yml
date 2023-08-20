@@ -1,0 +1,36 @@
+server:
+  port: 9411
+  compression:
+    enabled: true
+    # compresses any response over min-response-size (default is 2KiB)
+    # Includes dynamic json content and large static assets from zipkin-ui
+    mime-types: application/json,application/javascript,text/css,image/svg
+    min-response-size: 2048
+
+armeria:
+  ports:
+    - port: ${server.port}
+      protocols:
+        - http
+  compression:
+    enabled: ${server.compression.enabled}
+    mime-types: ${server.compression.mime-types}
+    min-response-size: ${server.compression.min-response-size}
+  gracefulShutdownQuietPeriodMillis: -1
+  gracefulShutdownTimeoutMillis: -1
+  
+spring:
+  application:
+    name: trace-service  
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      name: trace-service
+        
+eureka:
+  client:
+    register-with-eureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

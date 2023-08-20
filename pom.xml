@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.objectworld.shopping</groupId>
+	<artifactId>chapter08.06-docker-spring-cloud-framework</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>chapter08.06-docker-spring-cloud-framework</name>
+	<description>
+	    Docker Spring Cloud Framework Samples
+	</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.2</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>17</java.version>
+		<spring-cloud.version>2022.0.3</spring-cloud.version>
+		<spring-cloud-sleuth.version>3.1.9</spring-cloud-sleuth.version>
+	</properties>
+
+	<modules>
+		<module>config-server</module>
+		<module>discovery-server</module>
+		<module>trace-server</module>
+		<module>hystrix-dashboard</module>
+		<module>api-gateway</module>
+	</modules>
+</project>

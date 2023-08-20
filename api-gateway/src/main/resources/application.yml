@@ -1,0 +1,68 @@
+server:
+  port: 8222
+
+spring:
+  application:
+    name: gateway-service
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+      default-filters:
+        - name: LoggingFilter
+          args:
+            message: Default Logging Filter
+            logRequest: true
+            logResponse: true
+      routes:
+          # id: 라우트의 고유 식별자
+          # uri: 해당 라우터의 URL
+          # predicates: 라우트의 매칭 조건
+          # filters: 해당 라우트의 필터로, RewritePath는 강제로 Path를 다시 작성
+        - id: test-service
+          uri: lb://test-service
+          predicates:
+            - Path=/test/**
+          filters:
+            - name: LoggingFilter
+              args:
+                message : Logging Filter
+                logRequest: true
+                logResponse: true
+            - RewritePath=/test, /api/hello
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    service-url:
+      default-zone: http://localhost:8761/eureka
+        
+logging:
+  level:
+    org.objectworld: TRACE
+#    org.springframework.cloud.gateway: TRACE
+#    org.springframework.cloud.loadbalancer: TRACE
+#    org.springframework.http.server.reactive: DEBUG
+#    org.springframework.web.reactive: DEBUG
+#    reactor.ipc.netty: DEBUG
+#    reactor.netty: DEBUG
+#    org.objectworld: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway, info, health 
+  # 액튜에이터에서 상세 정보들을 확인하기 위한 설정
+  endpoint.health.show-details: always
+  # 액튜에이터에서 스프링 클라우드 게이트웨이 상세 정보들을 확인하기 위한 설정
+  endpoint.gateway.enabled: true
+  
+  
+#swagger: 
+#  collector: 
+#    initial-delay: 11000
+#    interval: 60000
+    
