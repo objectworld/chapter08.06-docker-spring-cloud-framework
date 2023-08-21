@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <!-- 스프링 부트 설정 파일을 그대로 사용하는 경우 -->
+    <!--
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    -->
+    <!-- Start : 수작업으로 스프링 부트 설정을 변경하는 경우 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){green} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-default}"/>
+        
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+    <!-- End : 수작업으로 스프링 부트 설정을 변경하는 경우 -->
+
+    <springProperty scope="context" name="service-name" source="spring.application.name" />
+    <springProperty scope="context" name="logstash-host" source="logstash.host" />
+    <springProperty scope="context" name="logstash-port" source="logstash.port" />
+    
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${logstash-host}:${logstash-port}</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+	        <customFields>{"service-name":"${service-name}"}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- org.objectworld 패키지 하위의 모든 클래스는 TRACE 레벨로 로깅 -->
+    <logger additivity="false" name="org.objectworld">
+        <level value="TRACE" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="LOGSTASH" />
+    </logger>
+    <!-- 디폴트 로깅은 INFO -->
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
