@@ -34,4 +34,43 @@
 		<module>hystrix-dashboard</module>
 		<module>api-gateway</module>
 	</modules>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17-jdk</image>
+					</from>
+					<to>
+						<image>objectworld/${project.artifactId}</image>
+						<tags>
+							<tag>${project.version}</tag>
+							<tag>latest</tag>
+						</tags>
+					</to>
+					<container>
+						<jvmFlags>
+							<jvmFlag>-Dspring.profiles.active=docker</jvmFlag>
+						</jvmFlags>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>dockerBuild</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -2,7 +2,7 @@ spring:
   application:
     name: discovery-service  
   config:
-    import: optional:configserver:http://config-service:8788
+    import: optional:configserver:http://config-server:8788
     activate:
       on-profile: docker
 ---

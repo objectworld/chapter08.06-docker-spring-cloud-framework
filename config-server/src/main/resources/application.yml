@@ -3,7 +3,8 @@ server:
  
 spring:
   profiles:
-    active: native
+    include:
+    - native
   cloud:
     config:
       server:
