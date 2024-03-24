@@ -60,8 +60,8 @@ eureka:
     fetch-registry: true
     registry-fetch-interval-seconds: 10
     service-url:
-      default-zone: http://discovery-service:8761/eureka
-        
+      defaultZone: http://discovery-service:8761/eureka/
+      
 logging:
   level:
     org.objectworld: TRACE

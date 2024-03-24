@@ -1,13 +1,6 @@
 server:
   port: 8080
-  
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    service-url:
-      default-zone: http://discovery-service:8761/eureka/
-      
+
 name:
   value: shopping
 

@@ -30,8 +30,6 @@
 	<modules>
 		<module>config-server</module>
 		<module>discovery-server</module>
-		<module>trace-server</module>
-		<module>hystrix-dashboard</module>
 		<module>api-gateway</module>
 	</modules>
 	

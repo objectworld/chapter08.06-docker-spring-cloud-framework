@@ -1,5 +1,13 @@
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+     
 management:
   endpoints:
     web:
       exposure:
-        include: hystrix.stream, info, health
+        include: info, health
